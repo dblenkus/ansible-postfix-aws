@@ -1,0 +1,4 @@
+---
+
+postfix_aws_ses_host: email-smtp.eu-west-1.amazonaws.com
+postfix_aws_ses_port: 25

@@ -1,0 +1,74 @@
+---
+
+- name: Sanity check of ansible-postfix-aws's configuration
+  assert:
+    that:
+      - postfix_aws_amazon_key_id is defined
+      - postfix_aws_amazon_access_key is defined
+      - postfix_aws_from_email is defined
+
+- name: Install Postfix
+  package: name=postfix state=present
+
+- name: Ensure Postfix is enabled and started
+  service: name=postfix enabled=yes state=started
+
+- name: Install cyrus-sasl
+  package: name={{ item }} state=present
+  with_items:
+    - cyrus-sasl
+    - cyrus-sasl-plain
+    - cyrus-sasl-lib
+
+- name: Configure Postfix main.cf
+  lineinfile:
+    backup: yes
+    dest: /etc/postfix/main.cf
+    regexp: "^{{ item.variable }}\ ="
+    line: "{{ item.variable }} = {{ item.value }}"
+    state: present
+  with_items:
+    - { variable: 'relayhost', value: "[{{ postfix_aws_ses_host }}]:{{ postfix_aws_ses_port }}" }
+    - { variable: 'smtp_sasl_auth_enable', value: 'yes' }
+    - { variable: 'smtp_sasl_security_options', value: 'noanonymous' }
+    - { variable: 'smtp_sasl_password_maps', value: 'hash:/etc/postfix/sasl_passwd' }
+    - { variable: 'smtp_use_tls', value: 'yes' }
+    - { variable: 'smtp_tls_security_level', value: 'encrypt' }
+    - { variable: 'smtp_tls_note_starttls_offer', value: 'yes' }
+    - { variable: 'smtp_tls_CAfile', value: '/etc/ssl/certs/ca-bundle.crt' }
+    - { variable: 'sender_canonical_maps', value: 'regexp:/etc/postfix/sender_canonical' }
+  notify: Restart Postfix
+
+- name: Create file with SMTP credentials
+  lineinfile:
+    backup: yes
+    create: yes
+    dest: /etc/postfix/sasl_passwd
+    regexp: "{{ postfix_aws_ses_host }}"
+    line: "[{{ postfix_aws_ses_host }}]:{{ postfix_aws_ses_port }} {{ postfix_aws_amazon_key_id }}:{{ postfix_aws_amazon_access_key }}"
+    state: present
+  register: postfix_aws_credentials_res
+  notify: Restart Postfix
+
+- name: Create a hashmap database file with SMTP credentials
+  command: postmap hash:/etc/postfix/sasl_passwd
+  when: postfix_aws_credentials_res.changed
+
+- name: Set permissions and owner of created files
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - /etc/postfix/sasl_passwd.db
+    - /etc/postfix/sasl_passwd
+
+- name: Set canonical from email address
+  lineinfile:
+    backup: yes
+    create: yes
+    dest: /etc/postfix/sender_canonical
+    regexp: ".*{{ postfix_aws_from_email }}"
+    line: "/.+/ {{ postfix_aws_from_email }}"
+    state: present
