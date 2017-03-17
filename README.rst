@@ -18,25 +18,15 @@ Currently, the role only supports `CentOS`_ and
 If you need support for other flavors, feel free to `submit a pull request`_.
 
 To use this role, you have to have to have `Amazon AWS account`_ (to create it
-follow the online instructions) and `IAM user`_ with (at least) following
-policy:
+follow the online instructions) and IAM user for SMTP authentication with SES.
+To create it, follow the online instructions on `Obtaining SMTP Credentials`_.
+Note that the obtained SMTP user name and password are not the same as IAM
+user's access key ID and secret access key.
 
-.. code-block:: json
-
-    {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": "ses:SendRawEmail",
-                "Resource": "*"
-            }
-        ]
-    }
-
-To work properly "from" email has to be verified in SES. If you account is still
-in sandbox, all "to" emails also have to be verified. For more informations
-check `Amazon's instructions on verifying email addresses`_.
+For the role to work properly, the "from" email address has to be verified with
+SES. If your account is still in sandbox, all "to" emails also have to be
+verified. For more information, check
+`Amazon's instructions on verifying email addresses`_.
 
 .. _CentOS: https://www.centos.org/
 
@@ -48,8 +38,8 @@ check `Amazon's instructions on verifying email addresses`_.
 
 .. _Amazon AWS account: https://aws.amazon.com/
 
-.. _IAM user:
-  http://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html
+.. _Obtaining SMTP Credentials:
+  https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-credentials.html
 
 .. _Amazon's instructions on verifying email addresses:
   http://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html
@@ -64,10 +54,11 @@ Role Variables
 +------------------------------------+----------+-------------------------------------------+-----------+----------------------------------------+
 | ``postfix_aws_ses_port``           | integer  | Port of Amazon SES server.                |     no    |                ``25``                  |
 +------------------------------------+----------+-------------------------------------------+-----------+----------------------------------------+
-| ``postfix_aws_amazon_key_id``      |  string  | Amazon Key ID used for sending mails.     |    yes    |                                        |
+| ``postfix_aws_ses_username``       |  string  | Username for SMTP authentication with     |    yes    |                                        |
+|                                    |          | Amazon SES server.                        |           |                                        |
 +------------------------------------+----------+-------------------------------------------+-----------+----------------------------------------+
-| ``postfix_aws_amazon_access_key``  |  string  | Amazon secret Access Key for sending      |    yes    |                                        |
-|                                    |          | mails.                                    |           |                                        |
+| ``postfix_aws_ses_password``       |  string  | Password for SMTP authentication with     |    yes    |                                        |
+|                                    |          | Amazon SES server.                        |           |                                        |
 +------------------------------------+----------+-------------------------------------------+-----------+----------------------------------------+
 | ``postfix_aws_from_email``         |  string  | Default from email.                       |    yes    |                                        |
 +------------------------------------+----------+-------------------------------------------+-----------+----------------------------------------+

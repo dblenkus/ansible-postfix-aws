@@ -3,8 +3,8 @@
 - name: Sanity check of ansible-postfix-aws's configuration
   assert:
     that:
-      - postfix_aws_amazon_key_id is defined
-      - postfix_aws_amazon_access_key is defined
+      - postfix_aws_ses_username is defined
+      - postfix_aws_ses_password is defined
       - postfix_aws_from_email is defined
 
 - name: Install Postfix
@@ -45,7 +45,7 @@
     create: yes
     dest: /etc/postfix/sasl_passwd
     regexp: "{{ postfix_aws_ses_host }}"
-    line: "[{{ postfix_aws_ses_host }}]:{{ postfix_aws_ses_port }} {{ postfix_aws_amazon_key_id }}:{{ postfix_aws_amazon_access_key }}"
+    line: "[{{ postfix_aws_ses_host }}]:{{ postfix_aws_ses_port }} {{ postfix_aws_ses_username }}:{{ postfix_aws_ses_password }}"
     state: present
   register: postfix_aws_credentials_res
   notify: Restart Postfix
