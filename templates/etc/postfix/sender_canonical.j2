@@ -1,0 +1,9 @@
+# List of canonical mappings for envelope and header sender addresses
+# {{ ansible_managed }}
+
+{% for map in postfix_aws_sender_canonical_maps %}
+{% if map.comment is defined %}
+# {{ map.comment }}
+{% endif %}
+{{ map.pattern }} {{ map.address }}
+{% endfor %}

@@ -5,7 +5,14 @@
     that:
       - postfix_aws_ses_username is defined
       - postfix_aws_ses_password is defined
-      - postfix_aws_from_email is defined
+      - postfix_aws_default_from_email is defined
+
+- name: Sanity check of postfix_aws_sender_canonical_maps variable
+  assert:
+    that:
+      - "'pattern' in item"
+      - "'address' in item"
+  with_items: "{{ postfix_aws_sender_canonical_maps }}"
 
 - name: Install Postfix
   package: name=postfix state=present
@@ -64,11 +71,8 @@
     - /etc/postfix/sasl_passwd.db
     - /etc/postfix/sasl_passwd
 
-- name: Set canonical from email address
-  lineinfile:
-    backup: yes
-    create: yes
+- name: Set canonical mappings for sender addresses
+  template:
+    src: etc/postfix/sender_canonical.j2
     dest: /etc/postfix/sender_canonical
-    regexp: ".*{{ postfix_aws_from_email }}"
-    line: "/.+/ {{ postfix_aws_from_email }}"
-    state: present
+    backup: yes
