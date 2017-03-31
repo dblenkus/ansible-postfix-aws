@@ -88,4 +88,5 @@ Licensed under the GPLv3 License. See the COPYING file for details.
 Author Information
 ------------------
 
-Domen Blenkuš
+| Domen Blenkuš
+| Tadej Janež
