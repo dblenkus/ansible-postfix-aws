@@ -55,6 +55,7 @@
     line: "[{{ postfix_aws_ses_host }}]:{{ postfix_aws_ses_port }} {{ postfix_aws_ses_username }}:{{ postfix_aws_ses_password }}"
     state: present
   register: postfix_aws_credentials_res
+  no_log: yes
   notify: Restart Postfix
 
 - name: Create a hashmap database file with SMTP credentials
