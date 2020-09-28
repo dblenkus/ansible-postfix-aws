@@ -1,0 +1,6 @@
+---
+- name: Install RedHat dependencies
+  yum:
+    name: "{{ postfix_aws_package_dependencies }}"
+    state: present
+    update_cache: true

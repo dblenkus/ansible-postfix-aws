@@ -12,8 +12,7 @@ modifications to ensure idempotency.
 Requirements
 ------------
 
-Currently, the role only supports `CentOS`_ and
-`Red Hat Enterprise Linux (RHEL)`_ EL7 distribution flavors.
+Currently, the role only supports `CentOS`_ , `Red Hat Enterprise Linux (RHEL)`_ EL7, `Ubuntu`_ LTS >= 18 distribution flavors.
 
 If you need support for other flavors, feel free to `submit a pull request`_.
 
@@ -43,6 +42,9 @@ verified. For more information, check
 
 .. _Amazon's instructions on verifying email addresses:
   http://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html
+
+.. _Ubuntu:
+  https://ubuntu.com/
 
 Role Variables
 --------------

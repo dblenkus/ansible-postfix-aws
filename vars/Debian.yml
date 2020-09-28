@@ -1,0 +1,4 @@
+---
+postfix_aws_tls_cafile_path: /etc/ssl/certs/ca-certificates.crt
+postfix_aws_package_dependencies:
+  - libsasl2-modules

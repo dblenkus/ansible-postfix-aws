@@ -1,4 +1,6 @@
 ---
+- name: Install OS-family-specific variables
+  include_vars: "vars/{{ ansible_os_family }}.yml"
 
 - name: Sanity check of ansible-postfix-aws's configuration
   assert:
@@ -20,12 +22,8 @@
 - name: Ensure Postfix is enabled and started
   service: name=postfix enabled=yes state=started
 
-- name: Install cyrus-sasl
-  package: name={{ item }} state=present
-  with_items:
-    - cyrus-sasl
-    - cyrus-sasl-plain
-    - cyrus-sasl-lib
+- name: Install OS-family-specific packages
+  include_tasks: "tasks/{{ ansible_os_family }}.yml"
 
 - name: Configure Postfix main.cf
   lineinfile:
@@ -42,7 +40,7 @@
     - { variable: 'smtp_use_tls', value: 'yes' }
     - { variable: 'smtp_tls_security_level', value: 'encrypt' }
     - { variable: 'smtp_tls_note_starttls_offer', value: 'yes' }
-    - { variable: 'smtp_tls_CAfile', value: '/etc/ssl/certs/ca-bundle.crt' }
+    - { variable: 'smtp_tls_CAfile', value: '{{ postfix_aws_tls_cafile_path }}' }
     - { variable: 'sender_canonical_maps', value: 'regexp:/etc/postfix/sender_canonical' }
   notify: Restart Postfix
 
@@ -76,3 +74,4 @@
     src: etc/postfix/sender_canonical.j2
     dest: /etc/postfix/sender_canonical
     backup: yes
+  notify: Reload Postfix

@@ -1,0 +1,6 @@
+---
+postfix_aws_tls_cafile_path: /etc/ssl/certs/ca-bundle.crt
+postfix_aws_package_dependencies:
+  - cyrus-sasl
+  - cyrus-sasl-plain
+  - cyrus-sasl-lib

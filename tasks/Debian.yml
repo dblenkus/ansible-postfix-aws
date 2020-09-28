@@ -1,0 +1,6 @@
+---
+- name: Install Debian dependencies
+  apt:
+    name: "{{ postfix_aws_package_dependencies }}"
+    state: present
+    update_cache: true
