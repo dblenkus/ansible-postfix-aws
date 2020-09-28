@@ -12,7 +12,7 @@ modifications to ensure idempotency.
 Requirements
 ------------
 
-Currently, the role only supports `CentOS`_ , `Red Hat Enterprise Linux (RHEL)`_ EL7, `Ubuntu`_ LTS >= 18 distribution flavors.
+Currently, the role only supports `CentOS`_ , `Red Hat Enterprise Linux (RHEL)`_ EL7, `Ubuntu`_ 18.04 LTS distribution flavors.
 
 If you need support for other flavors, feel free to `submit a pull request`_.
 
