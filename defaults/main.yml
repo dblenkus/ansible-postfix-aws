@@ -4,6 +4,6 @@ postfix_aws_ses_host: email-smtp.eu-west-1.amazonaws.com
 postfix_aws_ses_port: 25
 
 postfix_aws_sender_canonical_maps:
-  - pattern: "/.+"
+  - pattern: "/.+/"
     address: "{{ postfix_aws_default_from_email }}"
     comment: Map all sender addresses to the default From email address
