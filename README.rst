@@ -67,7 +67,7 @@ Role Variables
 +---------------------------------------+----------+-------------------------------------------+-----------+-------------------------------------------------------------------------+
 | ``postfix_aws_sender_canonical_maps`` |  list    | List of canonical mappings for envelope   |     no    | .. code-block:: yaml                                                    |
 |                                       |          | and header sender addresses of the form:  |           |                                                                         |
-|                                       |          |                                           |           |     pattern: "/.+"                                                      |
+|                                       |          |                                           |           |     pattern: "/.+/"                                                     |
 |                                       |          | .. code-block:: yaml                      |           |     address: "{{ postfix_aws_default_from_email }}"                     |
 |                                       |          |                                           |           |     comment: Map all sender addresses to the default From email address |
 |                                       |          |     pattern: string                       |           |                                                                         |
