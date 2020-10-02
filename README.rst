@@ -12,7 +12,8 @@ modifications to ensure idempotency.
 Requirements
 ------------
 
-Currently, the role only supports `CentOS`_ , `Red Hat Enterprise Linux (RHEL)`_ EL7, `Ubuntu`_ 18.04 LTS distribution flavors.
+Currently, the role only supports `CentOS`_ , `Red Hat Enterprise Linux
+(RHEL)`_ EL7, and `Ubuntu`_ 18.04 LTS distribution flavors.
 
 If you need support for other flavors, feel free to `submit a pull request`_.
 
@@ -32,6 +33,9 @@ verified. For more information, check
 .. _Red Hat Enterprise Linux (RHEL):
   https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux
 
+.. _Ubuntu:
+  https://ubuntu.com/
+
 .. _submit a pull request:
   https://github.com/dblenkus/ansible-postfix/aws/pull/new/master
 
@@ -42,9 +46,6 @@ verified. For more information, check
 
 .. _Amazon's instructions on verifying email addresses:
   http://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html
-
-.. _Ubuntu:
-  https://ubuntu.com/
 
 Role Variables
 --------------
